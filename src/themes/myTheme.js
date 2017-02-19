@@ -1,6 +1,8 @@
 /**
  * Created by bitholic on 2017/2/19.
  */
+'use strict';
+
 import color from 'color';
 
 import { Platform, Dimensions, PixelRatio } from 'react-native';
@@ -133,6 +135,7 @@ export default {
     // Footer
     footerHeight: 55,
     footerDefaultBg: (platform === 'ios') ? '#F8F8F8' : '#4179F7',
+    //footerDefaultBg: (platform === 'ios') ? '#6b6b6b' : '#4179F7',
 
 
     // FooterTab
