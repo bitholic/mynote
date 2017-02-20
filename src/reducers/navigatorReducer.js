@@ -30,7 +30,7 @@ const initialState = {
 export default function appNavigatorReducer(state = initialState, action = {}) {
     switch (action.type) {
         case types.NAVIGATION_PUSH:
-            return StateUtils.push(state, routes[action.payload]);
+            return StateUtils.push(state, action.payload);
         case types.NAVIGATION_POP:
             return StateUtils.pop(state);
         case types.NAVIGATION_TAB:

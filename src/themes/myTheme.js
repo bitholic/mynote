@@ -134,16 +134,16 @@ export default {
 
     // Footer
     footerHeight: 55,
-    footerDefaultBg: (platform === 'ios') ? '#F8F8F8' : '#4179F7',
+    footerDefaultBg: (platform === 'ios') ? '#4e4d52' : '#4179F7',
     //footerDefaultBg: (platform === 'ios') ? '#6b6b6b' : '#4179F7',
 
 
     // FooterTab
-    tabBarTextColor: (platform === 'ios') ? '#6b6b6b' : '#b3c7f9',
+    tabBarTextColor: (platform === 'ios') ? '#e5dbda' : '#b3c7f9',
     tabBarTextSize: (platform === 'ios') ? 14 : 11,
     activeTab: (platform === 'ios') ? '#007aff' : '#fff',
     sTabBarActiveTextColor: '#007aff',
-    tabBarActiveTextColor: (platform === 'ios') ? '#007aff' : '#fff',
+    tabBarActiveTextColor: (platform === 'ios') ? '#48e9d9' : '#fff',
     //tabActiveBgColor: (platform === 'ios') ? '#cde1f9' : '#3F51B5',
 
     // Tab
@@ -157,16 +157,17 @@ export default {
 
     // Header
     toolbarBtnColor: (platform === 'ios') ? '#007aff' : '#fff',
-    toolbarDefaultBg: (platform === 'ios') ? '#F8F8F8' : '#3F51B5',
+    toolbarDefaultBg: (platform === 'ios') ? '#4e4d52' : '#3F51B5',
+    //toolbarDefaultBg: (platform === 'ios') ? '#F8F8F8' : '#3F51B5',
     toolbarHeight: (platform === 'ios') ? 64 : 56,
     toolbarIconSize: (platform === 'ios') ? 20 : 22,
     toolbarSearchIconSize: (platform === 'ios') ? 20 : 23,
     toolbarInputColor: (platform === 'ios') ? '#CECDD2' : '#fff',
     searchBarHeight: (platform === 'ios') ? 30 : 40,
     toolbarInverseBg: '#222',
-    toolbarTextColor: (platform === 'ios') ? '#000' : '#fff',
+    toolbarTextColor: (platform === 'ios') ? '#fff' : '#fff',
     toolbarDefaultBorder: (platform === 'ios') ? '#a7a6ab' : '#3F51B5',
-    iosStatusbar: 'dark-content',
+    iosStatusbar: 'light-content',
     get statusBarColor() {
         return color(this.toolbarDefaultBg).darken(0.2).hexString();
     },
