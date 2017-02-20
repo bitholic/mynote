@@ -12,6 +12,7 @@ import Calendar from 'react-native-calendar';
 
 export default class CalendarWrapper extends Component {
     render() {
+        const {pop, push} = this.props;
         return (
             <Content>
                 {console.log(moment().format())}
@@ -26,7 +27,7 @@ export default class CalendarWrapper extends Component {
                     prevButtonText={'<<'}
                     nextButtonText={'>>'}
                     onDateSelect={(date) => {
-                        console.log(moment(date).format('YYYY-MM-DD'));
+                        push({key: 'addBill', day: moment(date).format('YYYY-MM-DD')});
                     }}
                 />
                 <Card>

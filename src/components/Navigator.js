@@ -6,6 +6,8 @@
 import React, {Component, PropTypes} from 'react';
 import {NavigationExperimental} from 'react-native';
 import HomeScreenContainer from '../containers/HomeScreenContainer';
+import AddBill from '../components/AddBill';
+import TagList from '../components/TagList';
 
 const { CardStack } = NavigationExperimental;
 
@@ -24,6 +26,7 @@ export default class Navigator extends Component {
     render() {
         return (
             <CardStack
+                direction='vertical'
                 onNavigateBack={this.props.pop}
                 navigationState={this.props.navigator}
                 renderScene={this.renderScene}
@@ -32,11 +35,35 @@ export default class Navigator extends Component {
     }
 
     renderScene(sceneProps) {
-        return (
-            <HomeScreenContainer
-                push={this.props.push}
-                pop={this.props.pop}
-            />
-        );
+        const route = sceneProps.scene.route;
+        switch (route.key) {
+            case 'home':
+                return (
+                    <HomeScreenContainer
+                        {...route.props}
+                        push={this.props.push}
+                        pop={this.props.pop}
+                    />
+                );
+            case 'addBill':
+                return (
+                    <AddBill
+                        {...route.props}
+                        {...route}
+                        push={this.props.push}
+                        pop={this.props.pop}
+                        />
+                );
+            case 'addTag':
+                return (
+                    <TagList
+                        {...route.props}
+                        {...route}
+                        push={this.props.push}
+                        pop={this.props.pop}
+                    />
+                );
+
+        }
     }
 }

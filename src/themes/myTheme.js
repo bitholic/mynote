@@ -119,7 +119,7 @@ export default {
 
     // Font
     fontFamily: (platform === 'ios') ? 'System' : 'Roboto',
-    fontSizeBase: 15,
+    fontSizeBase: 14,
 
     get fontSizeH1() {
         return this.fontSizeBase * 1.8;
@@ -156,7 +156,7 @@ export default {
 
 
     // Header
-    toolbarBtnColor: (platform === 'ios') ? '#007aff' : '#fff',
+    toolbarBtnColor: (platform === 'ios') ? '#fff' : '#fff',
     toolbarDefaultBg: (platform === 'ios') ? '#4e4d52' : '#3F51B5',
     //toolbarDefaultBg: (platform === 'ios') ? '#F8F8F8' : '#3F51B5',
     toolbarHeight: (platform === 'ios') ? 64 : 56,
@@ -213,7 +213,7 @@ export default {
 
     // List
     listBorderColor: '#c9c9c9',
-    listDividerBg: '#f4f4f4',
+    listDividerBg: '#808080',
     listItemHeight: 45,
 
     // Card
