@@ -1,3 +1,10 @@
 ## MyNote
-> A React-Native Notebook Application for my GF.
+> Build with React Native, Native Base and Redux.
+
+**Developing**
+
+TODO:
+- [ ] Fix footer tab bug.
+- [ ] Reform my iconfont.
+- [ ] Add more feature.
 
