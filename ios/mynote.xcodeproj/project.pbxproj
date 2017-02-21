@@ -30,6 +30,10 @@
 		20E271AFC50E4AA5A5CDFB0F /* Foundation.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1A75F8A1D19F4BEAB3DA362F /* Foundation.ttf */; };
 		2171AAD5893A4B89982745BB /* EvilIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A111E8D2DF574AB7809F5C95 /* EvilIcons.ttf */; };
 		283657F7C1BF4CEF8A78EFD3 /* Arial Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C2A751570EBE4D17ACE24198 /* Arial Black.ttf */; };
+		2B8555E21E5C14FD00E127C4 /* iconfont.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2B8555E11E5C14FD00E127C4 /* iconfont.ttf */; };
+		2B8555E31E5C14FD00E127C4 /* iconfont.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2B8555E11E5C14FD00E127C4 /* iconfont.ttf */; };
+		2B8555E41E5C14FD00E127C4 /* iconfont.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2B8555E11E5C14FD00E127C4 /* iconfont.ttf */; };
+		2B8555E51E5C14FD00E127C4 /* iconfont.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2B8555E11E5C14FD00E127C4 /* iconfont.ttf */; };
 		2D02E4BC1E0B4A80006451C7 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		2D02E4BD1E0B4A84006451C7 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		2D02E4BF1E0B4AB3006451C7 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
@@ -307,6 +311,7 @@
 		19711CAFB97E46228BC19900 /* SimpleLineIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = SimpleLineIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/SimpleLineIcons.ttf"; sourceTree = "<group>"; };
 		1A75F8A1D19F4BEAB3DA362F /* Foundation.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Foundation.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Foundation.ttf"; sourceTree = "<group>"; };
 		2127AE8137754415AF061C5B /* Zocial.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Zocial.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Zocial.ttf"; sourceTree = "<group>"; };
+		2B8555E11E5C14FD00E127C4 /* iconfont.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = iconfont.ttf; sourceTree = "<group>"; };
 		2D02E47B1E0B4A5D006451C7 /* mynote-tvOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "mynote-tvOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2D02E4901E0B4A5D006451C7 /* mynote-tvOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "mynote-tvOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2E9CD8CEA77949518CD56F6E /* Ionicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Ionicons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Ionicons.ttf"; sourceTree = "<group>"; };
@@ -525,6 +530,7 @@
 		440D7A2D3D8447769A4E251B /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				2B8555E11E5C14FD00E127C4 /* iconfont.ttf */,
 				188D063B47784202A2D6A0C1 /* Andale Mono.ttf */,
 				C2A751570EBE4D17ACE24198 /* Arial Black.ttf */,
 				8C7CDA195C1441CCA96ADA74 /* Arial.ttf */,
@@ -1003,6 +1009,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2B8555E31E5C14FD00E127C4 /* iconfont.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1011,6 +1018,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
+				2B8555E21E5C14FD00E127C4 /* iconfont.ttf in Resources */,
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
 				E173AF5FC2104129A49BB602 /* Andale Mono.ttf in Resources */,
 				283657F7C1BF4CEF8A78EFD3 /* Arial Black.ttf in Resources */,
@@ -1063,6 +1071,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2B8555E41E5C14FD00E127C4 /* iconfont.ttf in Resources */,
 				2D02E4BD1E0B4A84006451C7 /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1071,6 +1080,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2B8555E51E5C14FD00E127C4 /* iconfont.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

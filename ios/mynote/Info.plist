@@ -39,6 +39,7 @@
 	<string></string>
 	<key>UIAppFonts</key>
 	<array>
+		<string>iconfont.ttf</string>
 		<string>Andale Mono.ttf</string>
 		<string>Arial Black.ttf</string>
 		<string>Arial.ttf</string>
