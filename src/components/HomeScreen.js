@@ -4,6 +4,7 @@
 'use strict';
 
 import React, {Component, PropTypes} from 'react';
+import {View} from 'react-native';
 import {
     Container, Header, Title, Content, Footer, FooterTab, Icon, Button, Text,
     Body, Left, Right, StyleProvider, ListItem,
@@ -27,7 +28,6 @@ export default class HomeScreen extends Component {
 
     constructor(props, context) {
         super(props, context);
-        this.renderTabContent = this.renderTabContent.bind(this);
     }
 
     render() {
@@ -35,7 +35,38 @@ export default class HomeScreen extends Component {
         return (
             <StyleProvider style={getTheme(myTheme)}>
                 <Container>
-                    {this.renderTabContent(selectedTab)}
+                    <Header>
+                        <Body>
+                        <Title style={styles.headerText}>{headerTitle[selectedTab]}</Title>
+                        </Body>
+                    </Header>
+                    <SceneContainer {...this.props}>
+                        <View key='home'
+                              style={[styles.sceneContainer, (selectedTab === 'home' ? {} : styles.hidden)]}
+                              pointerEvents={selectedTab === 'home' ? 'auto' : 'none'}
+                              removeClippedSubviews={!(selectedTab === 'home')}>
+                            <Content>
+                                <Title>TodoList:</Title>
+                                <Text>weather</Text>
+                            </Content>
+                        </View>
+                        <View key='note'
+                              style={[styles.sceneContainer, (selectedTab === 'note' ? {} : styles.hidden)]}
+                              pointerEvents={selectedTab === 'note' ? 'auto' : 'none'}
+                              removeClippedSubviews={!(selectedTab === 'note')}>
+                            <Content>
+                                <Text>笔记本📒</Text>
+                            </Content>
+                        </View>
+                        <View key='bill'
+                              style={[styles.sceneContainer, (selectedTab === 'bill' ? {} : styles.hidden)]}
+                              pointerEvents={selectedTab === 'bill' ? 'auto' : 'none'}
+                              removeClippedSubviews={!(selectedTab === 'bill')}>
+                            <Content>
+                                <CalendarWrapper push={this.props.push} pop={this.props.pop}/>
+                            </Content>
+                        </View>
+                    </SceneContainer>
                     <Footer >
                         <FooterTab>
                             <Button active={selectedTab === 'home'} onPress={() => tab('home')}>
@@ -56,37 +87,34 @@ export default class HomeScreen extends Component {
             </StyleProvider>
         );
     }
+};
 
-    renderTabContent(selectedTab) {
+//TODO: make it like a true footer tab
+class SceneContainer extends Component {
+    constructor(props) {
+        super(props);
+    }
+
+    render() {
         return (
-                <Container>
-                    <Header>
-                        <Body>
-                        <Title style={styles.headerText}>{headerTitle[selectedTab]}</Title>
-                        </Body>
-                    </Header>
-                    <Content>
-                        <Content style={selectedTab === 'home' ? {} : styles.hidden}>
-                            <Title>TodoList:</Title>
-                            <Text>weather</Text>
-                        </Content>
-                        <Content style={selectedTab === 'note' ? {} : styles.hidden}>
-                            <Text>笔记本📒</Text>
-                        </Content>
-                        <Content style={selectedTab === 'bill' ? {} : styles.hidden}>
-                            <CalendarWrapper push={this.props.push} pop={this.props.pop} />
-                        </Content>
-                    </Content>
-                </Container>
+            <Container>
+                {this.props.children}
+            </Container>
         )
     }
 }
 
 const styles = {
     hidden: {
-        padding: 0,
-        width: 0,
-        height: 0,
+        overflow: 'hidden',
+        opacity: 0,
+    },
+    sceneContainer: {
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
     },
     headerText: {
         color: '#fff',

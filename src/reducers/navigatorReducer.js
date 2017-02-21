@@ -10,7 +10,7 @@ const {StateUtils} = NavigationExperimental;
 
 const routes = {
     home: {
-        index: 2,
+        index: 1,
         key: 'home',
         routes: [
             {key: 'home'},

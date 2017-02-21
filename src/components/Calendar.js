@@ -11,6 +11,10 @@ import Calendar from 'react-native-calendar';
 
 
 export default class CalendarWrapper extends Component {
+    constructor(props) {
+        super(props);
+    }
+
     render() {
         const {pop, push} = this.props;
         return (
