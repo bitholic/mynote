@@ -4,55 +4,112 @@
 'use strict';
 
 import React, {Component} from 'react';
-import {Container, Content, Card, CardItem, Text, Left, Body, Right, Button} from 'native-base';
+import {Content, Card, CardItem, Text, Left, Body, Right, Button} from 'native-base';
 import moment from 'moment';
 import {Col, Row, Grid} from "react-native-easy-grid";
 import Calendar from 'react-native-calendar';
 
-
+const recordDays = ['2017-02-02'];
+const dayHeadings = ['周日', '周一', '周二', '周三', '周四', '周五', '周六'];
+const monthNames = ['一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月', '十月', '十一月', '十二月'];
+const records = {
+    2017: {
+            2: {
+                1: {
+                    out: [
+                        { type: 'vegetable', amount: 10.00 },
+                        { type: 'fruit', amount: 20.00 },
+                        { type: 'rent', amount: 30.00 },
+                        { type: 'car', amount: 40.00 },
+                        ],
+                    in: [],
+                },
+                2: {
+                    out: [
+                        { type: 'vegetable', amount: 10.00 },
+                        { type: 'fruit', amount: 20.00 },
+                        ],
+                    in: [],
+                },
+                3: {
+                    out: [
+                        { type: 'rent', amount: 30.00 },
+                        { type: 'car', amount: 40.00 },
+                    ],
+                    in: [],
+                },
+                22: {
+                    out: [
+                        { type: 'rent', amount: 30.01 },
+                        { type: 'car', amount: 40.00 },
+                    ],
+                    in: [],
+                },
+            },
+        },
+};
 export default class CalendarWrapper extends Component {
     constructor(props) {
         super(props);
+
+        this.onChangeMonth = this.onChangeMonth.bind(this);
+    }
+
+    componentWillMount() {
+        /*
+        storage.save({
+            key: 'billRecords',
+            rawData: records,
+        });
+        */
+        this.props.fetchRecords();
     }
 
     render() {
-        const {pop, push} = this.props;
+        const {pop, push, changeDay, fetchRecords, calendar} = this.props;
         return (
             <Content>
-                {console.log(moment().format())}
+                <Button light onPress={() => fetchRecords()}>
+                    <Text>FETCH</Text>
+                </Button>
                 <Calendar
                     scrollEnabled={true}
                     showControls={true}
                     showEventIndicators={true}
                     weekStart={0}
                     customStyle={calendarStyle}
+                    eventDates={recordDays}
                     dayHeadings={dayHeadings}
                     monthNames={monthNames}
                     prevButtonText={'<<'}
                     nextButtonText={'>>'}
-                    onDateSelect={(date) => {
-                        push({key: 'addBill', day: moment(date).format('YYYY-MM-DD')});
-                    }}
+                    onSwipeNext={() => this.onChangeMonth('NEXT')}
+                    onSwipePrev={() => this.onChangeMonth('PREV')}
+                    onTouchNext={() => this.onChangeMonth('NEXT')}
+                    onTouchPrev={() => this.onChangeMonth('PREV')}
+                    selectedDate={calendar.selectedDay}
+                    startDate={calendar.selectedMonth}
+                    onDateSelect={(date) => changeDay(moment(date).format('YYYY-MM-DD'))}
                 />
                 <Card>
                     <CardItem header>
-                        <Text>2017-02-19 日账单：</Text>
+                        <Text>{calendar.selectedDay} 日账单：</Text>
                     </CardItem>
                     <CardItem>
                         <Grid>
                             <Col >
-                                <Text style={styles.out}> - 100.00 </Text>
+                                <Text style={styles.out}> - {calendar.dayOut} </Text>
                                 <Text style={styles.note}> 支出 </Text>
                             </Col>
                             <Col>
-                                <Text style={styles.in}> + 100.00 </Text>
+                                <Text style={styles.in}> + {calendar.dayIn} </Text>
                                 <Text style={styles.note}> 收入 </Text>
                             </Col>
                         </Grid>
                     </CardItem>
                     <CardItem footer>
                         <Body>
-                        <Button block light>
+                        <Button block light onPress={() => push({key: 'addBill', day: moment().format('YYYY-MM-DD')})}>
                             <Text>查 看</Text>
                         </Button>
                         </Body>
@@ -60,7 +117,7 @@ export default class CalendarWrapper extends Component {
                 </Card>
                 <Card>
                     <CardItem header>
-                        <Text>2017-02 月账单：</Text>
+                        <Text>{calendar.selectedMonth} 月账单：</Text>
                     </CardItem>
                     <CardItem>
                         <Grid>
@@ -83,7 +140,7 @@ export default class CalendarWrapper extends Component {
                     </CardItem>
                     <CardItem footer>
                         <Body>
-                        <Button block light>
+                        <Button block light onPress={() => push({key: 'addBill', day: moment().format('YYYY-MM-DD')})}>
                             <Text>查 看</Text>
                         </Button>
                         </Body>
@@ -92,11 +149,45 @@ export default class CalendarWrapper extends Component {
             </Content>
         )
     }
-}
 
-const dayHeadings = ['周日', '周一', '周二', '周三', '周四', '周五', '周六'];
-const monthNames = ['一月', '二月', '三月', '四月', '五月', '六月', '七月',
-    '八月', '九月', '十月', '十一月', '十二月'];
+    renderDayBill(){
+        console.log('day');
+    }
+
+    renderMonthBill(){
+        console.log('month');
+    }
+
+    onChangeMonth (type) {
+        const numbers = this.props.calendar.selectedMonth.split('-');
+        let year = parseInt(numbers[0]);
+        let month = parseInt(numbers[1]);
+        let nextMonth = '';
+
+        if(type === 'NEXT') {
+            if(month < 12) {
+                month += 1;
+            }else{
+                year += 1;
+                month = 1;
+            }
+        }
+        if(type === 'PREV'){
+            if(month > 1) {
+                month -= 1;
+            }else{
+                year -= 1;
+                month = 12;
+            }
+        }
+        if(month < 10) {
+            nextMonth = year + '-0' + month;
+        }else{
+            nextMonth = year + '-' + month;
+        }
+        this.props.changeMonth(nextMonth);
+    };
+}
 
 const calendarStyle = {
     title: {
@@ -104,7 +195,7 @@ const calendarStyle = {
         fontWeight: 'bold',
     },
     controlButtonText: {
-        color: '#007aff',
+        color: '#4e4d52',
         fontSize: 16,
         fontWeight: 'bold',
     },
@@ -117,6 +208,9 @@ const calendarStyle = {
     },
     dayButton: {
         borderTopWidth: 0,
+    },
+    eventIndicator: {
+        backgroundColor: '#48e9d9',
     },
 };
 

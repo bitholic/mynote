@@ -11,8 +11,8 @@ import {
 } from 'native-base';
 import getTheme from '../themes/components';
 import myTheme from '../themes/myTheme';
-import CalendarWrapper from './Calendar';
-import NavigatorContainer from '../containers/NavigatorContainer';
+import NotePage from '../components/NotePage';
+import CalendarContainer from '../containers/CalendarContainer';
 
 const headerTitle = {
     home: '首页',
@@ -54,16 +54,14 @@ export default class HomeScreen extends Component {
                               style={[styles.sceneContainer, (selectedTab === 'note' ? {} : styles.hidden)]}
                               pointerEvents={selectedTab === 'note' ? 'auto' : 'none'}
                               removeClippedSubviews={!(selectedTab === 'note')}>
-                            <Content>
-                                <Text>笔记本📒</Text>
-                            </Content>
+                            <NotePage/>
                         </View>
                         <View key='bill'
                               style={[styles.sceneContainer, (selectedTab === 'bill' ? {} : styles.hidden)]}
                               pointerEvents={selectedTab === 'bill' ? 'auto' : 'none'}
                               removeClippedSubviews={!(selectedTab === 'bill')}>
                             <Content>
-                                <CalendarWrapper push={this.props.push} pop={this.props.pop}/>
+                                <CalendarContainer push={this.props.push} pop={this.props.pop}/>
                             </Content>
                         </View>
                     </SceneContainer>

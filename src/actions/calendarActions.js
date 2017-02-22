@@ -5,6 +5,17 @@
 
 import * as types from '../actions/actionTypes';
 
-export function addBill() {
+export const changeDay = (day) => ({
+    type: types.DAY_CHANGED,
+    payload: day,
+});
 
-}
+export const changeMonth = (month) => ({
+    type: types.MONTH_CHANGED,
+    payload: month,
+});
+
+export const fetchRecords = () => ({
+    type: types.FETCH_RECORDS,
+    payload: storage.load({key: 'billRecords'}).then(ret => ret),
+});
