@@ -8,23 +8,17 @@ import {NavigationExperimental} from 'react-native';
 
 const {StateUtils} = NavigationExperimental;
 
-const routes = {
-    home: {
+const initialState = {
+    index: 0,
+    routes: [{
         index: 2,
-        key: 'home',
+        key: 'homePage',
         routes: [
             {key: 'home'},
             {key: 'note'},
             {key: 'bill'},
-        ]
-    },
-};
-
-const initialState = {
-    index: 0,
-    routes: [
-        routes.home
-    ]
+        ],
+    }],
 };
 
 export default function appNavigatorReducer(state = initialState, action = {}) {
@@ -34,9 +28,9 @@ export default function appNavigatorReducer(state = initialState, action = {}) {
         case types.NAVIGATION_POP:
             return StateUtils.pop(state);
         case types.NAVIGATION_TAB:
-            const homeState = StateUtils.get(state, 'home');
+            const homeState = StateUtils.get(state, 'homePage');
             const updatedState = StateUtils.jumpTo(homeState, action.payload);
-            return StateUtils.replaceAt(state, 'home', updatedState);
+            return StateUtils.replaceAt(state, 'homePage', updatedState);
         default:
             return state;
     }

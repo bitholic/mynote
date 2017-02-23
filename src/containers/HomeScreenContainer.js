@@ -13,7 +13,7 @@ const { StateUtils } = NavigationExperimental;
 
 export default connect(
     (state) => {
-        const homeState = StateUtils.get(state.navigator, 'home');
+        const homeState = StateUtils.get(state.navigator, 'homePage');
         return {
             selectedTab: homeState ? homeState.routes[homeState.index].key : 'home'
         };

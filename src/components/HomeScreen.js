@@ -7,7 +7,7 @@ import React, {Component, PropTypes} from 'react';
 import {View} from 'react-native';
 import {
     Container, Header, Title, Content, Footer, FooterTab, Icon, Button, Text,
-    Body, Left, Right, StyleProvider, ListItem,
+    Body, Left, Right, StyleProvider, ListItem, Drawer,
 } from 'native-base';
 import getTheme from '../themes/components';
 import myTheme from '../themes/myTheme';
@@ -40,7 +40,7 @@ export default class HomeScreen extends Component {
                         <Title style={styles.headerText}>{headerTitle[selectedTab]}</Title>
                         </Body>
                     </Header>
-                    <SceneContainer {...this.props}>
+                    <Container>
                         <View key='home'
                               style={[styles.sceneContainer, (selectedTab === 'home' ? {} : styles.hidden)]}
                               pointerEvents={selectedTab === 'home' ? 'auto' : 'none'}
@@ -60,11 +60,9 @@ export default class HomeScreen extends Component {
                               style={[styles.sceneContainer, (selectedTab === 'bill' ? {} : styles.hidden)]}
                               pointerEvents={selectedTab === 'bill' ? 'auto' : 'none'}
                               removeClippedSubviews={!(selectedTab === 'bill')}>
-                            <Content>
-                                <CalendarContainer push={this.props.push} pop={this.props.pop}/>
-                            </Content>
+                            <CalendarContainer push={this.props.push} pop={this.props.pop}/>
                         </View>
-                    </SceneContainer>
+                    </Container>
                     <Footer >
                         <FooterTab>
                             <Button active={selectedTab === 'home'} onPress={() => tab('home')}>
@@ -88,19 +86,92 @@ export default class HomeScreen extends Component {
 };
 
 //TODO: make it like a true footer tab
-class SceneContainer extends Component {
-    constructor(props) {
-        super(props);
-    }
+/*
+ <SceneContainer {...this.props}>
+ <View key='home'
+ style={[styles.sceneContainer, (selectedTab === 'home' ? {} : styles.hidden)]}
+ pointerEvents={selectedTab === 'home' ? 'auto' : 'none'}
+ removeClippedSubviews={!(selectedTab === 'home')}>
+ <Content>
+ <Title>TodoList:</Title>
+ <Text>weather</Text>
+ </Content>
+ </View>
+ <View key='note'
+ style={[styles.sceneContainer, (selectedTab === 'note' ? {} : styles.hidden)]}
+ pointerEvents={selectedTab === 'note' ? 'auto' : 'none'}
+ removeClippedSubviews={!(selectedTab === 'note')}>
+ <NotePage/>
+ </View>
+ <View key='bill'
+ style={[styles.sceneContainer, (selectedTab === 'bill' ? {} : styles.hidden)]}
+ pointerEvents={selectedTab === 'bill' ? 'auto' : 'none'}
+ removeClippedSubviews={!(selectedTab === 'bill')}>
+ <Content>
+ <CalendarContainer push={this.props.push} pop={this.props.pop}/>
+ </Content>
+ </View>
+ </SceneContainer>
 
-    render() {
-        return (
-            <Container>
-                {this.props.children}
-            </Container>
-        )
-    }
-}
+ class SceneContainer extends Component {
+ constructor(props) {
+ super(props);
+ this.state = {
+ fuck: 0,
+ }
+ }
+
+ isExisted(scenes, key) {
+ scenes.map((item, index) => {
+ if (item === null)
+ return false;
+ })
+ }
+
+ render() {
+ const {selectedTab} = this.props;
+ let scene1 =
+ <View key='home'
+ style={[styles.sceneContainer, (selectedTab === 'home' ? {} : styles.hidden)]}
+ pointerEvents={selectedTab === 'home' ? 'auto' : 'none'}
+ removeClippedSubviews={!(selectedTab === 'home')}>
+ <Content>
+ <Title>TodoList:</Title>
+ <Text>weather</Text>
+ </Content>
+ </View>;
+ let scene2 =
+ <View key='note'
+ style={[styles.sceneContainer, (selectedTab === 'note' ? {} : styles.hidden)]}
+ pointerEvents={selectedTab === 'note' ? 'auto' : 'none'}
+ removeClippedSubviews={!(selectedTab === 'note')}>
+ <NotePage/>
+ </View>;
+
+ let scene3 =
+ <View key='bill'
+ style={[styles.sceneContainer, (selectedTab === 'bill' ? {} : styles.hidden)]}
+ pointerEvents={selectedTab === 'bill' ? 'auto' : 'none'}
+ removeClippedSubviews={!(selectedTab === 'bill')}>
+ <CalendarContainer push={this.props.push} pop={this.props.pop}/>
+ </View>;
+
+ let scenes = [];
+ if (selectedTab === 'home' && !('home' in scenes))
+ scenes.push(scene1);
+ if (selectedTab === 'note' && !('note' in scenes))
+ scenes.push(scene2);
+ if (selectedTab === 'bill' && !('bill' in scenes))
+ scenes.push(scene3);
+ console.log(scenes);
+ return (
+ <Container>
+ {scenes}
+ </Container>
+ )
+ }
+ }
+ */
 
 const styles = {
     hidden: {

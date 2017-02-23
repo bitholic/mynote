@@ -62,7 +62,7 @@ export default class CalendarWrapper extends Component {
             rawData: records,
         });
         */
-        this.props.fetchRecords();
+        //this.props.fetchRecords();
     }
 
     render() {

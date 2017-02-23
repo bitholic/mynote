@@ -37,7 +37,7 @@ export default class Navigator extends Component {
     renderScene(sceneProps) {
         const route = sceneProps.scene.route;
         switch (route.key) {
-            case 'home':
+            case 'homePage':
                 return (
                     <HomeScreenContainer
                         {...route.props}
@@ -49,7 +49,6 @@ export default class Navigator extends Component {
                 return (
                     <AddBill
                         {...route.props}
-                        {...route}
                         push={this.props.push}
                         pop={this.props.pop}
                         />
@@ -58,12 +57,10 @@ export default class Navigator extends Component {
                 return (
                     <TagList
                         {...route.props}
-                        {...route}
                         push={this.props.push}
                         pop={this.props.pop}
                     />
                 );
-
         }
     }
 }
