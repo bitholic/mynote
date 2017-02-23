@@ -11,8 +11,9 @@ import {
 } from 'native-base';
 import getTheme from '../themes/components';
 import myTheme from '../themes/myTheme';
+import HomePage from '../components/HomePage';
 import NotePage from '../components/NotePage';
-import CalendarContainer from '../containers/CalendarContainer';
+import BillPageContainer from '../containers/BillPageContainer';
 
 const headerTitle = {
     home: '首页',
@@ -20,7 +21,7 @@ const headerTitle = {
     bill: '账簿',
 };
 
-export default class HomeScreen extends Component {
+export default class MainPage extends Component {
     static propTypes = {
         selectedTab: PropTypes.string,
         tab: PropTypes.func.isRequired
@@ -45,22 +46,19 @@ export default class HomeScreen extends Component {
                               style={[styles.sceneContainer, (selectedTab === 'home' ? {} : styles.hidden)]}
                               pointerEvents={selectedTab === 'home' ? 'auto' : 'none'}
                               removeClippedSubviews={!(selectedTab === 'home')}>
-                            <Content>
-                                <Title>TodoList:</Title>
-                                <Text>weather</Text>
-                            </Content>
+                            <HomePage push={this.props.push} pop={this.props.pop}/>
                         </View>
                         <View key='note'
                               style={[styles.sceneContainer, (selectedTab === 'note' ? {} : styles.hidden)]}
                               pointerEvents={selectedTab === 'note' ? 'auto' : 'none'}
                               removeClippedSubviews={!(selectedTab === 'note')}>
-                            <NotePage/>
+                            <NotePage push={this.props.push} pop={this.props.pop}/>
                         </View>
                         <View key='bill'
                               style={[styles.sceneContainer, (selectedTab === 'bill' ? {} : styles.hidden)]}
                               pointerEvents={selectedTab === 'bill' ? 'auto' : 'none'}
                               removeClippedSubviews={!(selectedTab === 'bill')}>
-                            <CalendarContainer push={this.props.push} pop={this.props.pop}/>
+                            <BillPageContainer push={this.props.push} pop={this.props.pop}/>
                         </View>
                     </Container>
                     <Footer >

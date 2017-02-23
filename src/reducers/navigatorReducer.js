@@ -12,7 +12,7 @@ const initialState = {
     index: 0,
     routes: [{
         index: 2,
-        key: 'homePage',
+        key: 'mainPage',
         routes: [
             {key: 'home'},
             {key: 'note'},
@@ -28,9 +28,9 @@ export default function appNavigatorReducer(state = initialState, action = {}) {
         case types.NAVIGATION_POP:
             return StateUtils.pop(state);
         case types.NAVIGATION_TAB:
-            const homeState = StateUtils.get(state, 'homePage');
-            const updatedState = StateUtils.jumpTo(homeState, action.payload);
-            return StateUtils.replaceAt(state, 'homePage', updatedState);
+            const mainState = StateUtils.get(state, 'mainPage');
+            const updatedState = StateUtils.jumpTo(mainState, action.payload);
+            return StateUtils.replaceAt(state, 'mainPage', updatedState);
         default:
             return state;
     }

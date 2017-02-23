@@ -48,7 +48,7 @@ const records = {
             },
         },
 };
-export default class CalendarWrapper extends Component {
+export default class BillPage extends Component {
     constructor(props) {
         super(props);
 
@@ -66,14 +66,14 @@ export default class CalendarWrapper extends Component {
     }
 
     render() {
-        const {pop, push, changeDay, fetchRecords, calendar} = this.props;
+        const {pop, push, changeDay, fetchRecords, bill} = this.props;
         return (
             <Content>
                 <Button light onPress={() => fetchRecords()}>
                     <Text>FETCH</Text>
                 </Button>
                 <Calendar
-                    scrollEnabled={true}
+                    scrollEnabled={false}
                     showControls={true}
                     showEventIndicators={true}
                     weekStart={0}
@@ -87,22 +87,22 @@ export default class CalendarWrapper extends Component {
                     onSwipePrev={() => this.onChangeMonth('PREV')}
                     onTouchNext={() => this.onChangeMonth('NEXT')}
                     onTouchPrev={() => this.onChangeMonth('PREV')}
-                    selectedDate={calendar.selectedDay}
-                    startDate={calendar.selectedMonth}
+                    selectedDate={bill.selectedDay}
+                    startDate={bill.selectedMonth}
                     onDateSelect={(date) => changeDay(moment(date).format('YYYY-MM-DD'))}
                 />
                 <Card>
                     <CardItem header>
-                        <Text>{calendar.selectedDay} 日账单：</Text>
+                        <Text>{bill.selectedDay} 日账单：</Text>
                     </CardItem>
                     <CardItem>
                         <Grid>
                             <Col >
-                                <Text style={styles.out}> - {calendar.dayOut} </Text>
+                                <Text style={styles.out}> - {bill.dayOut} </Text>
                                 <Text style={styles.note}> 支出 </Text>
                             </Col>
                             <Col>
-                                <Text style={styles.in}> + {calendar.dayIn} </Text>
+                                <Text style={styles.in}> + {bill.dayIn} </Text>
                                 <Text style={styles.note}> 收入 </Text>
                             </Col>
                         </Grid>
@@ -117,7 +117,7 @@ export default class CalendarWrapper extends Component {
                 </Card>
                 <Card>
                     <CardItem header>
-                        <Text>{calendar.selectedMonth} 月账单：</Text>
+                        <Text>{bill.selectedMonth} 月账单：</Text>
                     </CardItem>
                     <CardItem>
                         <Grid>
@@ -159,7 +159,7 @@ export default class CalendarWrapper extends Component {
     }
 
     onChangeMonth (type) {
-        const numbers = this.props.calendar.selectedMonth.split('-');
+        const numbers = this.props.bill.selectedMonth.split('-');
         let year = parseInt(numbers[0]);
         let month = parseInt(numbers[1]);
         let nextMonth = '';

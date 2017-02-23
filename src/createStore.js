@@ -9,7 +9,7 @@ import promiseMiddleware from 'redux-promise-middleware';
 import storage from './utils/localAsyncStoreConf';
 import createLogger from 'redux-logger';
 import navigatorReducer from './reducers/navigatorReducer';
-import calendarRenducer from './reducers/calendarReducer';
+import billReducer from './reducers/billReducer';
 
 global.storage = storage;
 
@@ -20,7 +20,7 @@ const initialState = {};
 const store = createStore(
     combineReducers({
         navigator: navigatorReducer,
-        calendar: calendarRenducer,
+        bill: billReducer,
     }),
     initialState,
     applyMiddleware(thunk, promiseMiddleware(), logger),

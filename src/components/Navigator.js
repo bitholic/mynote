@@ -5,7 +5,7 @@
 
 import React, {Component, PropTypes} from 'react';
 import {NavigationExperimental} from 'react-native';
-import HomeScreenContainer from '../containers/HomeScreenContainer';
+import MainPageContainer from '../containers/MainPageContainer';
 import AddBill from '../components/AddBill';
 import TagList from '../components/TagList';
 
@@ -15,7 +15,7 @@ export default class Navigator extends Component {
     static propTypes = {
         push: PropTypes.func.isRequired,
         pop: PropTypes.func.isRequired,
-        navigation: PropTypes.objectOf(PropTypes.any)
+        navigator: PropTypes.objectOf(PropTypes.any).isRequired,
     };
 
     constructor(props) {
@@ -37,9 +37,9 @@ export default class Navigator extends Component {
     renderScene(sceneProps) {
         const route = sceneProps.scene.route;
         switch (route.key) {
-            case 'homePage':
+            case 'mainPage':
                 return (
-                    <HomeScreenContainer
+                    <MainPageContainer
                         {...route.props}
                         push={this.props.push}
                         pop={this.props.pop}

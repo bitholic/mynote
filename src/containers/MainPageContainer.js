@@ -7,18 +7,18 @@ import { NavigationExperimental } from 'react-native';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { tab } from '../actions/navigatorActions';
-import HomeScreen from '../components/HomeScreen';
+import MainPage from '../components/MainPage';
 
 const { StateUtils } = NavigationExperimental;
 
 export default connect(
     (state) => {
-        const homeState = StateUtils.get(state.navigator, 'homePage');
+        const mainState = StateUtils.get(state.navigator, 'mainPage');
         return {
-            selectedTab: homeState ? homeState.routes[homeState.index].key : 'home'
+            selectedTab: mainState ? mainState.routes[mainState.index].key : 'home'
         };
     },
     (dispatch) => (bindActionCreators({
         tab,
     }, dispatch))
-)(HomeScreen);
+)(MainPage);

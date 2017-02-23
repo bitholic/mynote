@@ -4,17 +4,16 @@
 'use strict';
 
 import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
 import {changeDay, changeMonth, fetchRecords,} from '../actions/calendarActions';
-import CalendarWrapper from '../components/Calendar';
+import BillPage from '../components/BillPage';
 
 export default connect(
     (state) => ({
-        calendar: state.calendar,
+        bill: state.bill,
     }),
     (dispatch) => ({
         changeDay: (day) => dispatch(changeDay(day)),
         changeMonth: (month) => dispatch(changeMonth(month)),
         fetchRecords: () => dispatch(fetchRecords()).catch(err => {}),
     }),
-)(CalendarWrapper);
+)(BillPage);
