@@ -9,7 +9,6 @@ import {NavigationExperimental} from 'react-native';
 const {StateUtils} = NavigationExperimental;
 
 const initialState = {
-    drawerDisabled: false,
     index: 0,
     routes: [{
         index: 1,
@@ -35,12 +34,12 @@ export default function appNavigatorReducer(state = initialState, action = {}) {
         case types.OPEN_DRAWER:
             return {
                 ...state,
-                drawerDisabled: false,
+                drawerEnabled: true,
             };
         case types.CLOSE_DRAWER:
             return {
                 ...state,
-                drawerDisabled: true,
+                drawerEnabled: false,
             };
         default:
             return state;

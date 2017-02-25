@@ -24,7 +24,7 @@ const headerTitle = {
 export default class MainPage extends Component {
     static propTypes = {
         selectedTab: PropTypes.string,
-        tab: PropTypes.func.isRequired
+        tab: PropTypes.func.isRequired,
     };
 
     constructor(props, context) {
@@ -32,14 +32,20 @@ export default class MainPage extends Component {
     }
 
     render() {
-        const {selectedTab, tab} = this.props;
+        const {selectedTab, tab, openDrawer} = this.props;
         return (
             <StyleProvider style={getTheme(myTheme)}>
                 <Container>
                     <Header>
+                        <Left>
+                            <Button transparent onPress={() => openDrawer()}>
+                                <Icon name='ios-menu' style={{color: '#fff'}}/>
+                            </Button>
+                        </Left>
                         <Body>
                         <Title style={styles.headerText}>{headerTitle[selectedTab]}</Title>
                         </Body>
+                        <Right></Right>
                     </Header>
                     <Container>
                         <View key='home'

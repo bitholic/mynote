@@ -19,7 +19,6 @@ export default class NotePage extends Component {
     }
 
     render() {
-        console.log('rendered');
         return (
             <Content>
                 <Text>{this.state.text}</Text>
