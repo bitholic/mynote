@@ -15,6 +15,14 @@ export const push = (key) => ({
     payload: key,
 });
 
-export const pop= () => ({
+export const pop = () => ({
     type: types.NAVIGATION_POP,
+});
+
+export const openDrawer = () => ({
+    type: types.OPEN_DRAWER,
+});
+
+export const closeDrawer = () => ({
+    type: types.CLOSE_DRAWER,
 });

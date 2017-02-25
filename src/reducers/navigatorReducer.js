@@ -9,9 +9,10 @@ import {NavigationExperimental} from 'react-native';
 const {StateUtils} = NavigationExperimental;
 
 const initialState = {
+    drawerDisabled: false,
     index: 0,
     routes: [{
-        index: 2,
+        index: 1,
         key: 'mainPage',
         routes: [
             {key: 'home'},
@@ -31,6 +32,16 @@ export default function appNavigatorReducer(state = initialState, action = {}) {
             const mainState = StateUtils.get(state, 'mainPage');
             const updatedState = StateUtils.jumpTo(mainState, action.payload);
             return StateUtils.replaceAt(state, 'mainPage', updatedState);
+        case types.OPEN_DRAWER:
+            return {
+                ...state,
+                drawerDisabled: false,
+            };
+        case types.CLOSE_DRAWER:
+            return {
+                ...state,
+                drawerDisabled: true,
+            };
         default:
             return state;
     }

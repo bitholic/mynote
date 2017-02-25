@@ -6,8 +6,8 @@
 import React, {Component, PropTypes} from 'react';
 import {View} from 'react-native';
 import {
-    Container, Header, Title, Content, Footer, FooterTab, Icon, Button, Text,
-    Body, Left, Right, StyleProvider, ListItem, Drawer,
+    StyleProvider, Container, Header, Title, Content, Footer, FooterTab, Icon, Button, Text,
+    Body, Left, Right, ListItem, Drawer,
 } from 'native-base';
 import getTheme from '../themes/components';
 import myTheme from '../themes/myTheme';

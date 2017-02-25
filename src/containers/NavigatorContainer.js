@@ -5,7 +5,7 @@
 
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import {push, pop} from '../actions/navigatorActions';
+import {push, pop, openDrawer, closeDrawer} from '../actions/navigatorActions';
 import Navigator from '../components/Navigator';
 
 export default connect(
@@ -15,5 +15,7 @@ export default connect(
     (dispatch) => (bindActionCreators({
         push,
         pop,
+        openDrawer,
+        closeDrawer,
     }, dispatch))
 )(Navigator);
