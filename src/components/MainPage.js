@@ -37,15 +37,15 @@ export default class MainPage extends Component {
             <StyleProvider style={getTheme(myTheme)}>
                 <Container>
                     <Header>
-                        <Left>
-                            <Button transparent onPress={() => openDrawer()}>
-                                <Icon name='ios-menu' style={{color: '#fff'}}/>
-                            </Button>
-                        </Left>
+                        <Left/>
                         <Body>
                         <Title style={styles.headerText}>{headerTitle[selectedTab]}</Title>
                         </Body>
-                        <Right></Right>
+                        <Right>
+                            <Button transparent onPress={() => openDrawer()}>
+                                <Icon name='ios-menu' style={{color: '#fff'}}/>
+                            </Button>
+                        </Right>
                     </Header>
                     <Container>
                         <View key='home'

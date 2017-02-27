@@ -32,7 +32,6 @@ export default class Navigator extends Component {
     }
 
     render() {
-        console.log(this);
         return (
             <Drawer
                 type="displace"

@@ -40,7 +40,6 @@ export default class HomePage extends Component {
     }
 
     render() {
-        {console.log(this.state.lastPosition)}
         return (
             <Content>
                 <Text>Initial position: </Text>

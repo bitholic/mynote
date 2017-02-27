@@ -13,6 +13,7 @@
     "react-native": "0.41.2",
     "react-native-calendar": "^0.10.0",
     "react-native-easy-grid": "^0.1.8",
+    "react-native-open-share": "git+https://github.com/mozillo/react-native-open-share.git",
     "react-native-storage": "^0.1.5",
     "react-native-vector-icons": "^4.0.0",
     "react-redux": "^5.0.2",

@@ -10,7 +10,6 @@ const initialState = {
     fetchRecordsError: false,
     selectedDay: moment().format('YYYY-MM-DD'),
     selectedMonth: moment().format('YYYY-MM'),
-    selectedDayRecorded: false,
     dayOut: 0,
     dayIn: 0,
     monthOut: 0,
@@ -26,6 +25,9 @@ export default function billReducer(state = initialState, action = {}) {
                 records: action.payload,
                 fetchRecordsError: false,
                 dayOut: getSelectedDayBill(action.payload, state.selectedDay, 'out'),
+                dayIn: getSelectedDayBill(action.payload, state.selectedDay, 'in'),
+                monthOut: getSelectedMonthBill(action.payload, state.selectedMonth, 'out'),
+                monthIn: getSelectedMonthBill(action.payload, state.selectedMonth, 'in'),
             };
         case types.FETCH_RECORDS_REJECTED:
             return {
@@ -37,11 +39,14 @@ export default function billReducer(state = initialState, action = {}) {
                 ...state,
                 selectedDay: action.payload,
                 dayOut: getSelectedDayBill(state.records, action.payload, 'out'),
+                dayIn: getSelectedDayBill(state.records, action.payload, 'in'),
             };
         case types.MONTH_CHANGED:
             return {
                 ...state,
                 selectedMonth: action.payload,
+                monthOut: getSelectedMonthBill(state.records, action.payload, 'out'),
+                monthIn: getSelectedMonthBill(state.records, action.payload, 'in'),
             };
         default:
             return state;
@@ -49,14 +54,32 @@ export default function billReducer(state = initialState, action = {}) {
 }
 
 function getSelectedDayBill(records, selectedDay, type) {
-    const numbers = selectedDay.split('-');
+    if(contains(records.days, selectedDay)){
+        const numbers = selectedDay.split('-');
+        let year = parseInt(numbers[0]);
+        let month = parseInt(numbers[1]);
+        let day = parseInt(numbers[2]);
+        return addCount(records.detail[year][month][day][type]);
+    }else{
+        return 0;
+    }
+}
+
+function getSelectedMonthBill(records, selectedMonth, type) {
+    const numbers = selectedMonth.split('-');
     let year = parseInt(numbers[0]);
     let month = parseInt(numbers[1]);
-    let day = parseInt(numbers[2]);
-    if (year in records && month in records[year] && day in records[year][month] && type in records[year][month][day]) {
-        return addCount(records[year][month][day][type]);
-    } else {
-        return 0;
+    let sum = 0;
+    if(year in records.detail && month in records.detail[year]){
+        const monthObj = records.detail[year][month];
+        for(let day in monthObj) {
+            monthObj[day][type].map((item, key) => {
+                sum += item.amount;
+            })
+        }
+        return sum;
+    }else{
+        return sum;
     }
 }
 
@@ -66,4 +89,18 @@ function addCount(record) {
         result += item.amount;
     });
     return result;
+}
+
+function contains(a, obj) {
+    if(a === undefined){
+        return false;
+    }else {
+        let i = a.length;
+        while (i--) {
+            if (a[i] === obj) {
+                return true;
+            }
+        }
+        return false;
+    }
 }

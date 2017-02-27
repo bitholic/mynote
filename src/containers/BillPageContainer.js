@@ -4,7 +4,7 @@
 'use strict';
 
 import {connect} from 'react-redux';
-import {changeDay, changeMonth, fetchRecords,} from '../actions/calendarActions';
+import {changeDay, changeMonth, fetchRecords,} from '../actions/billActions';
 import BillPage from '../components/BillPage';
 
 export default connect(
