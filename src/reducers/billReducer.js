@@ -48,6 +48,8 @@ export default function billReducer(state = initialState, action = {}) {
                 monthOut: getSelectedMonthBill(state.records, action.payload, 'out'),
                 monthIn: getSelectedMonthBill(state.records, action.payload, 'in'),
             };
+        case types.ADD_BILL:
+            return state;
         default:
             return state;
     }

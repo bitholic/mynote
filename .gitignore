@@ -40,6 +40,7 @@ yarn-error.log
 buck-out/
 \.buckd/
 android/app/libs
+android/local.properties
 *.keystore
 
 # fastlane

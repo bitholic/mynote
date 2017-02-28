@@ -19,3 +19,8 @@ export const fetchRecords = () => ({
     type: types.FETCH_RECORDS,
     payload: storage.load({key: 'billRecords'}).then(ret => ret),
 });
+
+export const addBill = (record) => ({
+    type: types.ADD_BILL,
+    payload: record,
+});

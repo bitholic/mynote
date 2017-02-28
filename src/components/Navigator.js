@@ -8,7 +8,7 @@ import {NavigationExperimental} from 'react-native';
 import {Drawer, Button, Text} from 'native-base';
 import Menu from '../components/Menu';
 import MainPageContainer from '../containers/MainPageContainer';
-import AddBill from '../components/AddBill';
+import AddBillPageContainer from '../containers/AddBillPageContainer';
 import TagList from '../components/TagList';
 
 const {CardStack} = NavigationExperimental;
@@ -84,7 +84,7 @@ export default class Navigator extends Component {
                 );
             case 'addBill':
                 return (
-                    <AddBill
+                    <AddBillPageContainer
                         {...route.props}
                         push={this.props.push}
                         pop={this.props.pop}

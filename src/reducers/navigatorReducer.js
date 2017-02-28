@@ -11,7 +11,7 @@ const {StateUtils} = NavigationExperimental;
 const initialState = {
     index: 0,
     routes: [{
-        index: 1,
+        index: 2,
         key: 'mainPage',
         routes: [
             {key: 'home'},

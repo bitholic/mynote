@@ -12,11 +12,11 @@ export const NAVIGATION_POP = 'NAVIGATION_POP';
 export const OPEN_DRAWER = 'OPEN_DRAWER';
 export const CLOSE_DRAWER = 'CLOSE_DRAWER';
 
-//calendar actions
+//bill actions
 export const FETCH_RECORDS = 'FETCH_RECORDS';
 export const FETCH_RECORDS_PENDING = 'FETCH_RECORDS_PENDING';
 export const FETCH_RECORDS_FULFILLED = 'FETCH_RECORDS_FULFILLED';
 export const FETCH_RECORDS_REJECTED = 'FETCH_RECORDS_REJECTED';
 export const DAY_CHANGED = 'DAY_CHANGED';
 export const MONTH_CHANGED = 'MONTH_CHANGED';
-
+export const ADD_BILL = 'ADD_BILL';
