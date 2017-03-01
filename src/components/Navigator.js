@@ -9,7 +9,7 @@ import {Drawer, Button, Text} from 'native-base';
 import Menu from '../components/Menu';
 import MainPageContainer from '../containers/MainPageContainer';
 import AddBillPageContainer from '../containers/AddBillPageContainer';
-import TagList from '../components/TagList';
+import TagListPageContainer from '../containers/TagListPageContainer';
 
 const {CardStack} = NavigationExperimental;
 
@@ -86,13 +86,14 @@ export default class Navigator extends Component {
                 return (
                     <AddBillPageContainer
                         {...route.props}
+                        {...route}
                         push={this.props.push}
                         pop={this.props.pop}
                     />
                 );
-            case 'addTag':
+            case 'chooseTag':
                 return (
-                    <TagList
+                    <TagListPageContainer
                         {...route.props}
                         push={this.props.push}
                         pop={this.props.pop}

@@ -11,7 +11,7 @@ import mapper from '../utils/myFontMapper';
 export default class MyIcon extends Component {
     render() {
         return (
-            <Text style={styles.myIcon}>{mapper(this.props.name)}</Text>
+            <Text style={[styles.myIcon, this.props.style]}>{mapper(this.props.name)}</Text>
         )
     };
 }

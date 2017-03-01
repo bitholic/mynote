@@ -20,3 +20,4 @@ export const FETCH_RECORDS_REJECTED = 'FETCH_RECORDS_REJECTED';
 export const DAY_CHANGED = 'DAY_CHANGED';
 export const MONTH_CHANGED = 'MONTH_CHANGED';
 export const ADD_BILL = 'ADD_BILL';
+export const CHOOSE_TAG = 'CHOOSE_TAG';

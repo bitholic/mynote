@@ -7,14 +7,19 @@ import * as types from '../actions/actionTypes';
 import moment from 'moment';
 
 const initialState = {
-    fetchRecordsError: false,
     selectedDay: moment().format('YYYY-MM-DD'),
     selectedMonth: moment().format('YYYY-MM'),
+    selectedDayRecorded: false,
     dayOut: 0,
     dayIn: 0,
     monthOut: 0,
     monthIn: 0,
     records: {},
+    fetchRecordsError: false,
+    selectedInTag: undefined,
+    selectedOutTag: undefined,
+    todayInRecord: [],
+    todayOutRecord: [],
 };
 
 export default function billReducer(state = initialState, action = {}) {
@@ -24,6 +29,7 @@ export default function billReducer(state = initialState, action = {}) {
                 ...state,
                 records: action.payload,
                 fetchRecordsError: false,
+                selectedDayRecorded: isRecorded(action.payload.days, state.selectedDay),
                 dayOut: getSelectedDayBill(action.payload, state.selectedDay, 'out'),
                 dayIn: getSelectedDayBill(action.payload, state.selectedDay, 'in'),
                 monthOut: getSelectedMonthBill(action.payload, state.selectedMonth, 'out'),
@@ -38,6 +44,7 @@ export default function billReducer(state = initialState, action = {}) {
             return {
                 ...state,
                 selectedDay: action.payload,
+                selectedDayRecorded: isRecorded(state.records.days, action.payload),
                 dayOut: getSelectedDayBill(state.records, action.payload, 'out'),
                 dayIn: getSelectedDayBill(state.records, action.payload, 'in'),
             };
@@ -50,13 +57,18 @@ export default function billReducer(state = initialState, action = {}) {
             };
         case types.ADD_BILL:
             return state;
+        case types.CHOOSE_TAG:
+            return {
+                ...state,
+                selectedOutTag: action.payload,
+            };
         default:
             return state;
     }
 }
 
 function getSelectedDayBill(records, selectedDay, type) {
-    if(contains(records.days, selectedDay)){
+    if(isRecorded(records.days, selectedDay)){
         const numbers = selectedDay.split('-');
         let year = parseInt(numbers[0]);
         let month = parseInt(numbers[1]);
@@ -93,7 +105,7 @@ function addCount(record) {
     return result;
 }
 
-function contains(a, obj) {
+function isRecorded(a, obj) {
     if(a === undefined){
         return false;
     }else {

@@ -18,6 +18,7 @@ import {
     Right,
     Button
 } from 'native-base';
+import {TouchableOpacity} from 'react-native';
 import {Col, Row, Grid} from "react-native-easy-grid";
 import getTheme from '../themes/components';
 import myTheme from '../themes/myTheme';
@@ -48,13 +49,18 @@ const outTypes = [
         {type: 'laptop', title: '网费'},
     ], [
         {type: 'others', title: '旅游'},
+        {type: 'others', title: '游戏'},
+        {type: 'others', title: '健身'},
         {type: 'mobile-phone', title: '电子设备'},
+    ], [
+        {type: 'others', title: '待定1'},
+        {type: 'others', title: '待定2'},
         {type: 'lose-money', title: '丢钱'},
         {type: 'others', title: '其它'},
-    ]
+    ],
 ];
 
-export default class TagList extends Component {
+export default class TagListPage extends Component {
     constructor(props, context) {
         super(props, context);
 
@@ -95,9 +101,11 @@ export default class TagList extends Component {
                 <Row key={id} style={styles.padding}>
                     {row.map((item, id) => {
                         return (
-                            <Col key={id} style={styles.layout}>
-                                <MyIcon name={item.type} />
-                                <Text style={styles.iconText}>{item.title}</Text>
+                            <Col key={id}>
+                                <TouchableOpacity style={styles.layout} onPress={() => this.props.chooseTag(item)}>
+                                    <MyIcon name={item.type}/>
+                                    <Text style={styles.iconText}>{item.title}</Text>
+                                </TouchableOpacity>
                             </Col>
                         )
                     })}

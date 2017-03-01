@@ -24,3 +24,8 @@ export const addBill = (record) => ({
     type: types.ADD_BILL,
     payload: record,
 });
+
+export const chooseTag = (tag) => ({
+    type: types.CHOOSE_TAG,
+    payload: tag,
+});
