@@ -18,8 +18,8 @@ const initialState = {
     fetchRecordsError: false,
     selectedInTag: undefined,
     selectedOutTag: undefined,
-    todayInRecord: [],
-    todayOutRecord: [],
+    todayInRecords: [],
+    todayOutRecords: [],
 };
 
 export default function billReducer(state = initialState, action = {}) {

@@ -23,7 +23,7 @@ import {Col, Row, Grid} from "react-native-easy-grid";
 import getTheme from '../themes/components';
 import myTheme from '../themes/myTheme';
 import globalStyles from '../themes/globalStyles';
-
+import TimerMixin from 'react-timer-mixin';
 import MyIcon from '../components/MyIcon';
 
 const outTypes = [
@@ -63,6 +63,9 @@ const outTypes = [
 export default class TagListPage extends Component {
     constructor(props, context) {
         super(props, context);
+        this.state = {
+            disabled: false,
+        };
 
         this.renderIcons = this.renderIcons.bind(this);
     }
@@ -102,7 +105,15 @@ export default class TagListPage extends Component {
                     {row.map((item, id) => {
                         return (
                             <Col key={id}>
-                                <TouchableOpacity style={styles.layout} onPress={() => this.props.chooseTag(item)}>
+                                <TouchableOpacity
+                                    style={styles.layout}
+                                    disabled={this.state.disabled}
+                                    onPress={() => {
+                                        this.setState({disabled: true});
+                                        TimerMixin.setTimeout(() => this.setState({disabled: false}), 300);
+                                        this.props.chooseTag(item);
+                                        this.props.pop();
+                                    }}>
                                     <MyIcon name={item.type}/>
                                     <Text style={styles.iconText}>{item.title}</Text>
                                 </TouchableOpacity>
