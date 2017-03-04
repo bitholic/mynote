@@ -40,11 +40,14 @@ export default class AddBillPage extends Component {
             disabled: false,
             inText: '选择标签',
             defaultTag: 'arrow-forward',
+            amount: 0,
+            inRecords: [],
             fadeOutOpacity: new Animated.Value(0),
             translateXValue: new Animated.Value(0),
             recording: false,
         };
         this.renderContent = this.renderContent.bind(this);
+        this.renderItems = this.renderItems.bind(this);
     }
 
     componentWillReceiveProps(nextProps) {
@@ -89,51 +92,6 @@ export default class AddBillPage extends Component {
                                 <Text style={{color: 'red'}}>支 出</Text>
                             </CardItem>
                             {this.renderContent(this.state.recording)}
-                        </Card>
-                        <Card>
-                            <CardItem bordered header>
-                                <Text style={{color: 'green'}}>收 入</Text>
-                            </CardItem>
-                            <CardItem
-                                style={{
-                                    alignItems: 'center',
-                                    padding: 0,
-                                    height: 60,
-                                    justifyContent: 'center',
-                                    backgroundColor: '#f4f4f4'
-                                }}>
-                                <Text>暂 未 记 录</Text>
-                            </CardItem>
-                            <CardItem style={{padding: 0, height: 40, backgroundColor: '#fff'}} bordered footer>
-                                <Grid>
-                                    <Row>
-                                        <Col>
-                                            <Button full style={{
-                                                height: 40,
-                                                borderRightColor: '#a7a7ab',
-                                                borderRightWidth: 0.5,
-                                            }} light>
-                                                <Text style={{color: '#007aff'}}>无收入 一键记录</Text>
-                                            </Button>
-                                        </Col>
-                                        <Col>
-                                            <Button full style={{height: 40}} light>
-                                                <Text style={{color: '#007aff'}}>开始记录</Text>
-                                            </Button>
-                                        </Col>
-                                    </Row>
-                                </Grid>
-                            </CardItem>
-                        </Card>
-                        <Card>
-                            <CardItem bordered header>
-                                <Text style={{color: '#48e9d9'}}>备 注</Text>
-                            </CardItem>
-                            <CardItem>
-                                <View>
-                                    <TextInput style={{height: 40}}/>
-                                </View>
-                            </CardItem>
                         </Card>
                     </Content>
                 </Container>
@@ -200,12 +158,7 @@ export default class AddBillPage extends Component {
                                     </View>
                                 </Col>
                             </Row>
-                            <Row>
-                                <Col>
-                                    <View style={{height: 20, backgroundColor: '#f4f4f4'}}>
-                                    </View>
-                                </Col>
-                            </Row>
+                            {this.renderItems(this.state.inRecords)}
                             <Row>
                                 <Col>
                                     <View style={styles.listItemFooter}>
@@ -225,7 +178,7 @@ export default class AddBillPage extends Component {
                             <Row>
                                 <Col size={2}>
                                     <Button light full
-                                            style={{height: 40,borderRightColor: '#a7a7ab', borderRightWidth: 0.5,}}
+                                            style={{height: 40, borderRightColor: '#a7a7ab', borderRightWidth: 0.5,}}
                                             disabled={this.state.disabled}
                                             onPress={() => {
                                                 this.props.push({key: 'chooseTag'});
@@ -238,11 +191,18 @@ export default class AddBillPage extends Component {
                                 </Col>
                                 <Col size={2} style={{borderWidth: 1, borderColor: '#f4f4f4'}}>
                                     <TextInput style={{height: 40}} keyboardType='numeric' placeholder='输入金额'
-                                               onChangeText={() => {
+                                               onChangeText={ (amount) => {
+                                                   this.setState({amount: amount});
                                                }}/>
                                 </Col>
                                 <Col size={1}>
                                     <Button light full style={{height: 40}} onPress={() => {
+                                        let tmp = this.state.inRecords;
+                                        tmp.push({
+                                            type: '待定',
+                                            amount: this.state.amount
+                                        });
+                                        this.setState({inRecords: tmp});
                                     }}>
                                         <Text style={{color: '#007aff'}}>保 存</Text>
                                     </Button>
@@ -255,9 +215,59 @@ export default class AddBillPage extends Component {
         }
     }
 
-    renderItems(items) {
-
+    renderItems(records) {
+        if (records.length === 0) {
+            return (
+                <Row>
+                    <Col>
+                        <View style={{height: 20, backgroundColor: '#f4f4f4'}}>
+                        </View>
+                    </Col>
+                </Row>
+            )
+        } else {
+            return records.map((item, index) => {
+                return (
+                    <Row key={index}>
+                        <Col>
+                            <Swipeout
+                                autoClose={true}
+                                backgroundColor='#f4f4f4'
+                                right={[
+                                    {text: '修改', backgroundColor: '#0000ff', underlayColor: '#0000ff'},
+                                    {
+                                        text: '删除',
+                                        backgroundColor: '#ff0000',
+                                        underlayColor: '#ff0000',
+                                        onPress: () => {
+                                            let tmp = this.state.inRecords;
+                                            tmp.remove(index);
+                                            this.setState({inRecords: tmp});
+                                        }
+                                    }
+                                ]}
+                            >
+                                <View style={styles.listItem}>
+                                    <View style={styles.contentView}>
+                                        <Text>{item.type}</Text>
+                                    </View>
+                                    <View style={styles.contentView}>
+                                        <Text>{item.amount}</Text>
+                                    </View>
+                                </View>
+                            </Swipeout>
+                        </Col>
+                    </Row>
+                )
+            })
+        }
     }
+};
+
+Array.prototype.remove = function (from, to) {
+    var rest = this.slice((to || from) + 1 || this.length);
+    this.length = from < 0 ? this.length + from : from;
+    return this.push.apply(this, rest);
 };
 
 const styles = {
@@ -293,8 +303,8 @@ const styles = {
         justifyContent: 'flex-end',
         backgroundColor: '#f4f4f4',
         height: 40,
-        borderBottomWidth: 1,
-        borderBottomColor: 'grey',
+        borderTopWidth: 1,
+        borderTopColor: 'grey',
     },
     listBoldText: {
         fontWeight: 'bold',
@@ -306,3 +316,51 @@ const styles = {
         paddingLeft: 10,
     },
 };
+
+/*
+ <Card>
+ <CardItem bordered header>
+ <Text style={{color: 'green'}}>收 入</Text>
+ </CardItem>
+ <CardItem
+ style={{
+ alignItems: 'center',
+ padding: 0,
+ height: 60,
+ justifyContent: 'center',
+ backgroundColor: '#f4f4f4'
+ }}>
+ <Text>暂 未 记 录</Text>
+ </CardItem>
+ <CardItem style={{padding: 0, height: 40, backgroundColor: '#fff'}} bordered footer>
+ <Grid>
+ <Row>
+ <Col>
+ <Button full style={{
+ height: 40,
+ borderRightColor: '#a7a7ab',
+ borderRightWidth: 0.5,
+ }} light>
+ <Text style={{color: '#007aff'}}>无收入 一键记录</Text>
+ </Button>
+ </Col>
+ <Col>
+ <Button full style={{height: 40}} light>
+ <Text style={{color: '#007aff'}}>开始记录</Text>
+ </Button>
+ </Col>
+ </Row>
+ </Grid>
+ </CardItem>
+ </Card>
+ <Card>
+ <CardItem bordered header>
+ <Text style={{color: '#48e9d9'}}>备 注</Text>
+ </CardItem>
+ <CardItem>
+ <View>
+ <TextInput style={{height: 40}}/>
+ </View>
+ </CardItem>
+ </Card>
+ */
