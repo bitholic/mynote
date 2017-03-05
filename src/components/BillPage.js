@@ -4,6 +4,7 @@
 'use strict';
 
 import React, {Component} from 'react';
+import {Image, Alert} from 'react-native';
 import {Content, Card, CardItem, Text, Left, Body, Right, Button} from 'native-base';
 import moment from 'moment';
 import {Col, Row, Grid} from "react-native-easy-grid";
@@ -12,10 +13,10 @@ import Calendar from 'react-native-calendar';
 const dayHeadings = ['周日', '周一', '周二', '周三', '周四', '周五', '周六'];
 const monthNames = ['一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月', '十月', '十一月', '十二月'];
 const records = {
-    days: ['2017-02-01', '2017-02-02', '2017-02-03', '2017-02-22'],
+    days: ['2017-03-01', '2017-03-02', '2017-03-03', '2017-03-05'],
     detail: {
         2017: {
-            2: {
+            3: {
                 1: {
                     out: [
                         {type: 'vegetable', amount: 10.00},
@@ -24,8 +25,22 @@ const records = {
                         {type: 'car', amount: 40.00},
                     ],
                     in: [],
+                    note: '',
                 },
                 2: {
+                    out: [
+                        {type: 'rent', amount: 30.01},
+                        {type: 'car', amount: 40.00},
+                    ],
+                    in: [],
+                    note: '',
+                },
+                3: {
+                    out: [],
+                    in: [],
+                    note: '',
+                },
+                5: {
                     out: [
                         {type: 'vegetable', amount: 10.00},
                         {type: 'fruit', amount: 20.00},
@@ -33,20 +48,7 @@ const records = {
                     in: [
                         {type: 'salary', amount: 6500.00},
                     ],
-                },
-                3: {
-                    out: [
-                        {type: 'rent', amount: 30.00},
-                        {type: 'car', amount: 40.00},
-                    ],
-                    in: [],
-                },
-                22: {
-                    out: [
-                        {type: 'rent', amount: 30.01},
-                        {type: 'car', amount: 40.00},
-                    ],
-                    in: [],
+                    note: '发工资了，好开心!',
                 },
             },
         },
@@ -57,13 +59,14 @@ export default class BillPage extends Component {
         super(props);
 
         this.onChangeMonth = this.onChangeMonth.bind(this);
+        this.renderCard = this.renderCard.bind(this);
     }
 
     componentWillMount() {
-        // storage.save({
-        //     key: 'billRecords',
-        //     rawData: records,
-        // });
+         // storage.save({
+         //     key: 'billRecords',
+         //     rawData: records,
+         // });
         this.props.fetchRecords();
     }
 
@@ -91,31 +94,9 @@ export default class BillPage extends Component {
                     selectedDate={bill.selectedDay}
                     startDate={bill.selectedMonth}
                     onDateSelect={(date) => changeDay(moment(date).format('YYYY-MM-DD'))}
+                    weekStart={0}
                 />
-                <Card>
-                    <CardItem header>
-                        <Text>{bill.selectedDay} 日账单：</Text>
-                    </CardItem>
-                    <CardItem>
-                        <Grid>
-                            <Col >
-                                <Text style={styles.out}> - {bill.dayOut} </Text>
-                                <Text style={styles.note}> 支出 </Text>
-                            </Col>
-                            <Col>
-                                <Text style={styles.in}> + {bill.dayIn} </Text>
-                                <Text style={styles.note}> 收入 </Text>
-                            </Col>
-                        </Grid>
-                    </CardItem>
-                    <CardItem footer>
-                        <Body>
-                        <Button block light onPress={() => push({key: 'addBill', day: moment().format('YYYY-MM-DD')})}>
-                            <Text>查 看</Text>
-                        </Button>
-                        </Body>
-                    </CardItem>
-                </Card>
+                {this.renderCard(this.props)}
                 <Card>
                     <CardItem header>
                         <Text>{bill.selectedMonth} 月账单：</Text>
@@ -124,11 +105,11 @@ export default class BillPage extends Component {
                         <Grid>
                             <Row>
                                 <Col >
-                                    <Text style={styles.out}> - {bill.monthOut}</Text>
+                                    <Text style={styles.out}> - {bill.monthOut.toFixed(2)}</Text>
                                     <Text style={styles.note}> 支出 </Text>
                                 </Col>
                                 <Col>
-                                    <Text style={styles.in}> + {bill.monthIn}</Text>
+                                    <Text style={styles.in}> + {bill.monthIn.toFixed(2)}</Text>
                                     <Text style={styles.note}> 收入 </Text>
                                 </Col>
                             </Row>
@@ -149,6 +130,75 @@ export default class BillPage extends Component {
                 </Card>
             </Content>
         )
+    }
+
+    renderCard(props) {
+        if (props.bill.selectedDayRecorded) {
+            return (
+                <Card>
+                    <CardItem header>
+                        <Text>{props.bill.selectedDay} 日账单：</Text>
+                    </CardItem>
+                    <CardItem>
+                        <Grid>
+                            <Col >
+                                <Text style={styles.out}> - {props.bill.dayOut.toFixed(2)} </Text>
+                                <Text style={styles.note}> 支出 </Text>
+                            </Col>
+                            <Col>
+                                <Text style={styles.in}> + {props.bill.dayIn.toFixed(2)} </Text>
+                                <Text style={styles.note}> 收入 </Text>
+                            </Col>
+                        </Grid>
+                    </CardItem>
+                    <CardItem footer>
+                        <Body>
+                        <Button block light onPress={() => props.push({key: 'addBill', day: moment().format('YYYY-MM-DD')})}>
+                            <Text>查 看</Text>
+                        </Button>
+                        </Body>
+                    </CardItem>
+                </Card>
+            )
+        } else {
+            return (
+                <Card>
+                    <CardItem header>
+                        <Text>{props.bill.selectedDay} 日账单：</Text>
+                    </CardItem>
+                    <CardItem
+                        style={{
+                            flexDirection: 'row',
+                            alignItems: 'center',
+                            padding: 0,
+                            height: 60,
+                            justifyContent: 'center',
+                            backgroundColor: '#fff',
+                        }}>
+                        <Image source={require('../resources/cantfind.png')} style={{width: 40, height: 40}} />
+                        <Text style={{fontSize: 20, color: 'grey', paddingLeft: 10}}>您还没有记录哦!</Text>
+                    </CardItem>
+                    <CardItem footer>
+                        <Body>
+                        <Button block light onPress={() => {
+                            if(moment(props.bill.selectedDay).isAfter()){
+                                Alert.alert('时间还没到哦, 确定要记录?', '您可能活在异次元空间..',
+                                    [
+                                        {text: '确定', onPress: () => props.push({key: 'addBill'})},
+                                        {text: '取消'}
+                                    ]
+                                )
+                            }else{
+                                props.push({key: 'addBill'})
+                            }
+                        }}>
+                            <Text>去 记 录</Text>
+                        </Button>
+                        </Body>
+                    </CardItem>
+                </Card>
+            )
+        }
     }
 
     onChangeMonth(type) {

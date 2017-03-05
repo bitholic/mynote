@@ -18,8 +18,7 @@ const initialState = {
     fetchRecordsError: false,
     selectedInTag: undefined,
     selectedOutTag: undefined,
-    todayInRecords: [],
-    todayOutRecords: [],
+    selectedDayRecords: {},
 };
 
 export default function billReducer(state = initialState, action = {}) {
@@ -34,6 +33,7 @@ export default function billReducer(state = initialState, action = {}) {
                 dayIn: getSelectedDayBill(action.payload, state.selectedDay, 'in'),
                 monthOut: getSelectedMonthBill(action.payload, state.selectedMonth, 'out'),
                 monthIn: getSelectedMonthBill(action.payload, state.selectedMonth, 'in'),
+                selectedDayRecords: getSelectedDayRecords(action.payload, state.selectedDay),
             };
         case types.FETCH_RECORDS_REJECTED:
             return {
@@ -47,6 +47,7 @@ export default function billReducer(state = initialState, action = {}) {
                 selectedDayRecorded: isRecorded(state.records.days, action.payload),
                 dayOut: getSelectedDayBill(state.records, action.payload, 'out'),
                 dayIn: getSelectedDayBill(state.records, action.payload, 'in'),
+                selectedDayRecords: getSelectedDayRecords(state.records, action.payload),
             };
         case types.MONTH_CHANGED:
             return {
@@ -57,6 +58,17 @@ export default function billReducer(state = initialState, action = {}) {
             };
         case types.ADD_BILL:
             return state;
+        case types.REMOVE_RECORD:
+            const numbers = state.selectedDay.split('-');
+            let year = parseInt(numbers[0]);
+            let month = parseInt(numbers[1]);
+            let day = parseInt(numbers[2]);
+            let tmp = state.records;
+            tmp.detail[year][month][day][action.payload.type].remove(action.payload.index);
+            return {
+                ...state,
+                records: tmp,
+            };
         case types.CHOOSE_TAG:
             return {
                 ...state,
@@ -67,6 +79,12 @@ export default function billReducer(state = initialState, action = {}) {
     }
 }
 
+Array.prototype.remove = function (from, to) {
+    let rest = this.slice((to || from) + 1 || this.length);
+    this.length = from < 0 ? this.length + from : from;
+    return this.push.apply(this, rest);
+};
+
 function getSelectedDayBill(records, selectedDay, type) {
     if(isRecorded(records.days, selectedDay)){
         const numbers = selectedDay.split('-');
@@ -76,6 +94,18 @@ function getSelectedDayBill(records, selectedDay, type) {
         return addCount(records.detail[year][month][day][type]);
     }else{
         return 0;
+    }
+}
+
+function getSelectedDayRecords(records, selectedDay){
+    if(isRecorded(records.days, selectedDay)){
+        const numbers = selectedDay.split('-');
+        let year = parseInt(numbers[0]);
+        let month = parseInt(numbers[1]);
+        let day = parseInt(numbers[2]);
+        return records.detail[year][month][day];
+    }else{
+        return {};
     }
 }
 

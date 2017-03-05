@@ -25,6 +25,11 @@ export const addBill = (record) => ({
     payload: record,
 });
 
+export const removeRecord = (record) => ({
+    type: types.REMOVE_RECORD,
+    payload: record,
+});
+
 export const chooseTag = (tag) => ({
     type: types.CHOOSE_TAG,
     payload: tag,
