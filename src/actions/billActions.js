@@ -25,8 +25,8 @@ export const addBill = (record) => ({
     payload: record,
 });
 
-export const removeRecord = (record) => ({
-    type: types.REMOVE_RECORD,
+export const changeRecord = (record) => ({
+    type: types.CHANGE_RECORD,
     payload: record,
 });
 

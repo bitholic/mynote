@@ -58,16 +58,17 @@ export default function billReducer(state = initialState, action = {}) {
             };
         case types.ADD_BILL:
             return state;
-        case types.REMOVE_RECORD:
-            const numbers = state.selectedDay.split('-');
-            let year = parseInt(numbers[0]);
-            let month = parseInt(numbers[1]);
-            let day = parseInt(numbers[2]);
-            let tmp = state.records;
-            tmp.detail[year][month][day][action.payload.type].remove(action.payload.index);
+        case types.CHANGE_RECORD:
             return {
                 ...state,
-                records: tmp,
+                records: action.payload,
+                fetchRecordsError: false,
+                selectedDayRecorded: isRecorded(action.payload.days, state.selectedDay),
+                dayOut: getSelectedDayBill(action.payload, state.selectedDay, 'out'),
+                dayIn: getSelectedDayBill(action.payload, state.selectedDay, 'in'),
+                monthOut: getSelectedMonthBill(action.payload, state.selectedMonth, 'out'),
+                monthIn: getSelectedMonthBill(action.payload, state.selectedMonth, 'in'),
+                selectedDayRecords: getSelectedDayRecords(action.payload, state.selectedDay),
             };
         case types.CHOOSE_TAG:
             return {

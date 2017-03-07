@@ -4,7 +4,7 @@
 'use strict';
 
 import {connect} from 'react-redux';
-import {addBill, removeRecord} from '../actions/billActions';
+import {addBill, changeRecord} from '../actions/billActions';
 import AddBillPage from '../components/AddBillPage';
 
 export default connect(
@@ -13,6 +13,6 @@ export default connect(
     }),
     (dispatch) => ({
         addBill: (record) => dispatch(addBill(record)),
-        removeRecord: (record) => dispatch(removeRecord(record)),
+        changeRecord: (record) => dispatch(changeRecord(record)),
     })
 )(AddBillPage);

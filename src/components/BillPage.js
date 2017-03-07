@@ -63,10 +63,10 @@ export default class BillPage extends Component {
     }
 
     componentWillMount() {
-         // storage.save({
-         //     key: 'billRecords',
-         //     rawData: records,
-         // });
+         storage.save({
+             key: 'billRecords',
+             rawData: records,
+         });
         this.props.fetchRecords();
     }
 

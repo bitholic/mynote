@@ -41,26 +41,29 @@ export default class AddBillPage extends Component {
             inText: '选择标签',
             defaultTag: 'arrow-forward',
             amount: 0,
+            records: [],
             inRecords: [],
+            outRecords: [],
+            tmpOutRecords: [],                          //for recovery
             fadeOutOpacity: new Animated.Value(0),
             translateXValue: new Animated.Value(0),
             recording: false,
         };
         this.renderContent = this.renderContent.bind(this);
-        this.renderItems = this.renderItems.bind(this);
+        this.renderRecordList = this.renderRecordList.bind(this);
         this.addBill = this.addBill.bind(this);
     }
 
-    startAnimation() {
-        this.state.translateXValue.setValue(width);
-        Animated.timing(this.state.translateXValue, {
-            toValue: 0,
-            duration: 500,
-        }).start();
-    }
+    // startAnimation() {
+    //     this.state.translateXValue.setValue(width);
+    //     Animated.timing(this.state.translateXValue, {
+    //         toValue: 0,
+    //         duration: 500,
+    //     }).start();
+    // }
 
     render() {
-        const {bill} = this.props;
+        console.log(this.state);
         return (
             <StyleProvider style={getTheme(myTheme)}>
                 <Container>
@@ -71,7 +74,7 @@ export default class AddBillPage extends Component {
                             </Button>
                         </Left>
                         <Body>
-                        <Title style={globalStyles.headerText}>{bill.selectedDay}</Title>
+                        <Title style={globalStyles.headerText}>{this.props.bill.selectedDay}</Title>
                         </Body>
                         <Right>
                             <Button transparent onPress={() => this.props.pop()}>
@@ -80,31 +83,67 @@ export default class AddBillPage extends Component {
                         </Right>
                     </Header>
                     <Content>
-                        {this.renderContent(bill)}
+                        {this.renderContent(this.props.bill)}
                     </Content>
                 </Container>
             </StyleProvider>
         );
     }
 
+    componentWillMount() {
+        console.log("run");
+        if (this.props.bill.selectedDayRecorded) {
+            this.setState({
+                outRecords: this.props.bill.selectedDayRecords['out'],
+            });
+        }
+    }
+
+    onEditPressed() {
+        console.log("run");
+        this.setState({
+            recording: true,
+            tmpOutRecords: this.props.bill.selectedDayRecords['out'],
+        })
+    }
+
+    onSavePressed() {
+        const numbers = this.props.bill.selectedDay.split('-');
+        let year = parseInt(numbers[0]);
+        let month = parseInt(numbers[1]);
+        let day = parseInt(numbers[2]);
+        let tmp = this.props.bill.records;
+        tmp.detail[year][month][day]['out'] = this.state.outRecords;
+        this.setState({recording: false});
+        storage.save({
+            key: 'billRecords',
+            rawData: tmp,
+        });
+        this.props.changeRecord(tmp);
+    }
+
+    onCancelPressed() {
+        this.setState({
+            outRecords: this.state.tmpOutRecords,
+            recording: false,
+        })
+    }
+
     renderContent(bill) {
         if (bill.selectedDayRecorded) {
             if (!this.state.recording) {
+                //render records
                 return (
                     <Card>
                         <CardItem bordered header>
                             <Text style={{color: 'red'}}>支 出</Text>
                         </CardItem>
-                        {this.renderRecords(bill.selectedDayRecords['out'])}
+                        {this.renderRecords(this.state.outRecords)}
                         <CardItem style={{padding: 0, height: 40, backgroundColor: '#fff'}} bordered footer>
                             <Grid>
                                 <Row>
                                     <Col>
-                                        <Button full transparent style={{height: 40}} onPress={
-                                            () => {
-                                                this.setState({recording: true});
-                                            }
-                                        }>
+                                        <Button full transparent style={{height: 40}} onPress={() => this.onEditPressed()}>
                                             <Text style={{color: '#007aff'}}>修 改</Text>
                                         </Button>
                                     </Col>
@@ -113,16 +152,20 @@ export default class AddBillPage extends Component {
                         </CardItem>
                     </Card>
                 );
-            }else{
+            } else {
+                //render edit records
                 return (
                     <Card>
-                        <CardItem bordered header style={{paddingTop: 0, paddingBottom: 0}}>
+                        <CardItem bordered header style={{paddingTop: 0, paddingBottom: 0, paddingRight: 10}}>
                             <Left>
                                 <Text style={{color: 'red', fontSize: 16, fontWeight: 'bold', marginLeft: 0}}>支 出</Text>
                             </Left>
                             <Body/>
-                            <Right>
-                                <Button transparent style={{height: 50}}>
+                            <Right style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'center'}}>
+                                <Button transparent style={{height: 50}} onPress={() => this.onCancelPressed()}>
+                                    <Text style={{fontSize: 15}}>取消</Text>
+                                </Button>
+                                <Button transparent style={{height: 50, paddingLeft: 20}} onPress={() => this.onSavePressed()}>
                                     <Text style={{fontSize: 15}}>保存</Text>
                                 </Button>
                             </Right>
@@ -141,7 +184,7 @@ export default class AddBillPage extends Component {
                                         </View>
                                     </Col>
                                 </Row>
-                                {this.renderItems(bill.selectedDayRecords['out'])}
+                                {this.renderRecordList(this.state.outRecords)}
                                 <Row>
                                     <Col>
                                         <View style={styles.listItemFooter}>
@@ -161,7 +204,11 @@ export default class AddBillPage extends Component {
                                 <Row>
                                     <Col size={2}>
                                         <Button transparent full
-                                                style={{height: 40, borderRightColor: '#a7a7ab', borderRightWidth: 0.5,}}
+                                                style={{
+                                                    height: 40,
+                                                    borderRightColor: '#a7a7ab',
+                                                    borderRightWidth: 0.5,
+                                                }}
                                                 disabled={this.state.disabled}
                                                 onPress={() => {
                                                     this.props.push({key: 'chooseTag'});
@@ -172,21 +219,23 @@ export default class AddBillPage extends Component {
                                             <Icon name={this.state.defaultTag} style={{color: '#007aff'}}/>
                                         </Button>
                                     </Col>
-                                    <Col size={2} style={{borderWidth: 1, borderColor: '#f4f4f4'}}>
+                                    <Col size={2}>
                                         <TextInput style={{height: 40}} keyboardType='numeric' placeholder='输入金额'
                                                    onChangeText={ (amount) => {
                                                        this.setState({amount: amount});
                                                    }}/>
                                     </Col>
                                     <Col size={1}>
-                                        <Button transparent full style={{height: 40}} onPress={() => {
-                                            let tmp = this.state.inRecords;
-                                            tmp.push({
-                                                type: '待定',
-                                                amount: this.state.amount
-                                            });
-                                            this.setState({inRecords: tmp});
-                                        }}>
+                                        <Button transparent full
+                                                style={{height: 40, borderLeftColor: '#a7a7ab', borderLeftWidth: 0.5}}
+                                                onPress={() => {
+                                                    let tmp = this.state.inRecords;
+                                                    tmp.push({
+                                                        type: '待定',
+                                                        amount: this.state.amount
+                                                    });
+                                                    this.setState({inRecords: tmp});
+                                                }}>
                                             <Text style={{color: '#007aff'}}>添 加</Text>
                                         </Button>
                                     </Col>
@@ -328,7 +377,7 @@ export default class AddBillPage extends Component {
                     style={{
                         alignItems: 'center',
                         padding: 0,
-                        height: 120,
+                        height: 100,
                         width: width,
                         justifyContent: 'center',
                         backgroundColor: '#f4f4f4',
@@ -388,12 +437,12 @@ export default class AddBillPage extends Component {
         }
     }
 
-    renderItems(records) {
+    renderRecordList(records) {
         if (records.length === 0) {
             return (
                 <Row>
                     <Col>
-                        <View style={{height: 40, backgroundColor: '#f4f4f4'}}>
+                        <View style={{height: 20, backgroundColor: '#f4f4f4'}}>
                         </View>
                     </Col>
                 </Row>
@@ -413,7 +462,10 @@ export default class AddBillPage extends Component {
                                         backgroundColor: '#F23D3D',
                                         underlayColor: '#F23D3D',
                                         onPress: () => {
-                                            this.props.removeRecord({type: 'out', index: index})
+                                            //this.props.removeRecord({type: 'out', index: index})
+                                            let tmp = this.state.outRecords;
+                                            tmp.remove(index);
+                                            this.setState({outRecords: tmp});
                                         }
                                     }
                                 ]}
